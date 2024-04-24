@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block welcome %}
+<!-- No welcome message will be displayed -->
+{% endblock %}
+{% block title %}Study Session{% endblock %}
+
+{% block content %}
+<div class="flip-card-container">
+    <div class="flip-card" onclick="flipCard()">
+        <div class="flip-card-inner" id="flipCardInner">
+            <div class="flip-card-front">
+                <!-- Word will be displayed here -->
+                <h1 id="word">{{ word }}</h1>
+            </div>
+            <div class="flip-card-back">
+                <!-- Definition will be displayed here -->
+                <p id="definition">{{ definition }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<audio id="audioPlayback" controls></audio>
+
+<!-- Audio file upload form -->
+<form action="/study/process_audio" method="post" enctype="multipart/form-data">
+    <input type="hidden" id="targetWord" value="{{ word }}">
+</form>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+{% endblock %}

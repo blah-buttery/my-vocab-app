@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Transcription Evaluation Results{% endblock %}
+
+{% block welcome %}
+<!-- No welcome message will be displayed -->
+{% endblock %}
+
+{% block header %}
+    <h1>Transcription and Evaluation Results</h1>
+{% endblock %}
+
+{% block content %}
+<div>
+    <h2>Transcribed Text:</h2>
+    <p>{{ transcription }}</p>
+</div>
+<div>
+    <h2>Evaluation:</h2>
+    <p>{{ tip_str }}</p>
+</div>
+<a href="{{ url_for('study.study_home') }}">Try Another</a>
+{% endblock %}

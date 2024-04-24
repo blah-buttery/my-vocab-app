@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block welcome %}
+<!-- No welcome message will be displayed -->
+{% endblock %}
+
+{% block title %}Upload Words File{% endblock %}
+
+{% block header %}
+  <h1>Upload Words File</h1>
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <p>Please select a file containing the list of words you wish to upload.</p>
+    <form id="uploadForm" enctype="multipart/form-data">
+      <label for="fileInput">Select file:</label>
+      <input type="file" id="fileInput" name="file" required>
+      <button type="submit" class="btn btn-primary">Upload File</button>
+    </form>
+    <div id="message" class="mt-2"></div>
+  </div>
+
+  <script>
+    document.getElementById('uploadForm').addEventListener('submit', function(event) {
+      event.preventDefault();  // Prevent the form from submitting traditionally
+      var fileInput = document.getElementById('fileInput');
+      var file = fileInput.files[0];
+      var formData = new FormData();
+      formData.append('file', file);
+
+      // Use fetch to send the form data
+      fetch('{{ url_for("words.add_words_to_db") }}', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => {
+        if (response.ok) {
+          return response.text();  // Adjust depending on what response your server sends
+        }
+        throw new Error('Network response was not ok.');
+      })
+      .then(text => {
+        document.getElementById('message').innerText = 'File uploaded successfully!';
+      })
+      .catch(error => {
+        document.getElementById('message').innerText = 'Failed to upload file: ' + error.message;
+      });
+    });
+  </script>
+{% endblock %}

@@ -1,0 +1,46 @@
+<!doctype html>
+<title>{% block title %}{% endblock %} - Vocab app</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<nav>
+  <h1><a href="{{ url_for('index') }}">Vocab app</a></h1>
+  <ul>
+    {% if g.user %}
+      <li><span>{{ g.user['username'] }}</span>
+      <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
+    {% else %}
+      <li><a href="{{ url_for('auth.register') }}">Register</a>
+      <li><a href="{{ url_for('auth.login') }}">Log In</a>
+    {% endif %}
+  </ul>
+</nav>
+<body>
+  {% block welcome %}
+  <div class="container">
+      <h1>Welcome to the Vocabulary Study Web App</h1>
+      <p>This app helps you learn new words effectively by using spaced repetition and personalized study sessions.</p>
+      
+      <h2>How It Works</h2>
+      <ol>
+          <li>Create an account to start tracking your progress.</li>
+          <li>Make a list of words you want to learn.</li>
+          <li>Start a study session to review the words and test your knowledge.</li>
+      </ol>
+      
+      <div class="actions">
+          <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Create Account</a>
+          <a href="{{ url_for('words.add_words_to_db') }}">Make List of Words</a>
+          <a href="{{ url_for('study.study_home') }}" class="btn btn-success">Start Study Session</a>
+      </div>
+  </div>
+{% endblock %}
+  
+</body>
+<section class="content">
+  <header>
+    {% block header %}{% endblock %}
+  </header>
+  {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+  {% block content %}{% endblock %}
+</section>
